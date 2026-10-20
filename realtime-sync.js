@@ -9,7 +9,7 @@
  */
 
 function RealtimeSyncManager() {
-  this.channelName = 'solaria_resort_sync_v1';
+  this.channelName = 'tusk_and_dawn_resort_sync_v1';
   this.listeners = [];
   this.isConnected = false;
   this.syncMethod = 'Local + Cloud Mesh';
@@ -18,7 +18,7 @@ function RealtimeSyncManager() {
   // Free public SSL MQTT WebSocket broker
   this.cloudBrokerHost = 'broker.hivemq.com';
   this.cloudBrokerPort = 8884;
-  this.cloudTopic = 'solaria/resort/staff_sync/live_feed';
+  this.cloudTopic = 'tusk_and_dawn/resort/staff_sync/live_feed';
   this.mqttClient = null;
   this._statusCb = null;
 
@@ -61,7 +61,7 @@ RealtimeSyncManager.prototype.initLocalSync = function() {
   // B. LocalStorage StorageEvent (Works on 100% of Android browsers)
   if (typeof window !== 'undefined' && window.addEventListener) {
     window.addEventListener('storage', function(e) {
-      if (e.key === 'solaria_broadcast_event' && e.newValue) {
+      if ((e.key === 'tusk_and_dawn_broadcast_event' || e.key === 'solaria_broadcast_event') && e.newValue) {
         try {
           var payload = JSON.parse(e.newValue);
           if (payload && payload.originId !== self.clientId) {
@@ -82,7 +82,7 @@ RealtimeSyncManager.prototype.initCloudMqttSync = function() {
         this.cloudBrokerHost,
         this.cloudBrokerPort,
         "/mqtt",
-        "solaria_" + this.clientId
+        "tusk_and_dawn_" + this.clientId
       );
 
       client.onConnectionLost = function(responseObject) {
@@ -161,7 +161,7 @@ RealtimeSyncManager.prototype.publish = function(eventData) {
 
   // 2. LocalStorage StorageEvent
   try {
-    localStorage.setItem('solaria_broadcast_event', JSON.stringify(enrichedData));
+    localStorage.setItem('tusk_and_dawn_broadcast_event', JSON.stringify(enrichedData));
   } catch (e) {}
 
   // 3. Cloud MQTT WebSocket

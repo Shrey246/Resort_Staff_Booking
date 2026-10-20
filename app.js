@@ -1,5 +1,5 @@
 /**
- * Resort Name - Staff Booking Application
+ * Tusk & Dawn - Staff Booking Application
  * Ultra-Compatible Edition (Android 5.0+ to Android 15+, Chrome, Safari, iOS, WebViews)
  *
  * DEMO MODE: All data is wiped on every page refresh — nothing persists between sessions.

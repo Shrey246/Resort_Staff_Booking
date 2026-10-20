@@ -1,5 +1,5 @@
 /**
- * Solaria Luxury Resort - Cloud Backend Integration Stub
+ * Tusk & Dawn - Cloud Backend Integration Stub
  * Supports Google Firebase Firestore & Supabase REST integration
  */
 (function() {

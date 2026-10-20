@@ -1,12 +1,14 @@
-// Tusk and Dawn Jungle Resort - Staff Booking PWA Service Worker
-var CACHE_NAME = 'tusk-and-dawn-v1';
+// Tusk & Dawn - Staff Booking PWA Service Worker
+var CACHE_NAME = 'tusk-and-dawn-v2';
 var ASSETS_TO_CACHE = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './realtime-sync.js',
-  './manifest.json'
+  './manifest.json',
+  './logo-big.png',
+  './logo.png'
 ];
 
 self.addEventListener('install', function(event) {
