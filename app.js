@@ -86,19 +86,19 @@ var DEFAULT_STAFF_SESSIONS = [
 // 9 Specific Resort Rooms (No prices displayed for staff confidentiality)
 var ROOM_DATABASE = [
   // 6 Valley Cottages
-  { id: 'VC-1', category: 'Valley Cottages', name: 'Valley Cottage 101', view: 'Mist Valley View', bed: '1 King Bed', capacity: '2 Guests' },
-  { id: 'VC-2', category: 'Valley Cottages', name: 'Valley Cottage 102', view: 'Private Garden Deck', bed: '1 King Bed', capacity: '2 Guests' },
-  { id: 'VC-3', category: 'Valley Cottages', name: 'Valley Cottage 103', view: 'Sunrise Balcony', bed: '1 King Bed', capacity: '2 Guests' },
-  { id: 'VC-4', category: 'Valley Cottages', name: 'Valley Cottage 104', view: 'Brookside Woods', bed: '1 King Bed', capacity: '2 Guests' },
-  { id: 'VC-5', category: 'Valley Cottages', name: 'Valley Cottage 105', view: 'Orchard Breeze', bed: '1 King Bed', capacity: '2 Guests' },
-  { id: 'VC-6', category: 'Valley Cottages', name: 'Valley Cottage 106', view: 'Whispering Pine', bed: '1 King Bed', capacity: '2 Guests' },
+  { id: 'VC-1', category: 'Valley Cottages', name: 'Valley Cottage 101', view: 'Mist Valley View', capacity: '2 Guests' },
+  { id: 'VC-2', category: 'Valley Cottages', name: 'Valley Cottage 102', view: 'Garden View', capacity: '2 Guests' },
+  { id: 'VC-3', category: 'Valley Cottages', name: 'Valley Cottage 103', view: 'Sunrise Balcony', capacity: '2 Guests' },
+  { id: 'VC-4', category: 'Valley Cottages', name: 'Valley Cottage 104', view: 'Brookside Woods', capacity: '2 Guests' },
+  { id: 'VC-5', category: 'Valley Cottages', name: 'Valley Cottage 105', view: 'Orchard Breeze', capacity: '2 Guests' },
+  { id: 'VC-6', category: 'Valley Cottages', name: 'Valley Cottage 106', view: 'Whispering Pine', capacity: '2 Guests' },
 
   // 2 Hill Top Rooms
-  { id: 'HT-1', category: 'Hill Top Rooms', name: 'Hill Top Peak 201', view: '360° Cloud Ridge Suite', bed: '1 California King', capacity: '2 Guests' },
-  { id: 'HT-2', category: 'Hill Top Rooms', name: 'Hill Top Vista 202', view: 'Sunset Horizon Suite', bed: '1 California King', capacity: '2 Guests' },
+  { id: 'HT-1', category: 'Hill Top Rooms', name: 'Hill Top Peak 201', view: 'Cloud Ridge Suite', capacity: '2 Guests' },
+  { id: 'HT-2', category: 'Hill Top Rooms', name: 'Hill Top Vista 202', view: 'Sunset Horizon Suite', capacity: '2 Guests' },
 
   // 1 Dormitory
-  { id: 'DORM-1', category: 'Dormitory', name: 'Serenity Dorm Lodge', view: 'Pine Ridge Group Suite', bed: '8 Luxury Bunks', capacity: '8 Guests' }
+  { id: 'DORM-1', category: 'Dormitory', name: 'Serenity Dorm Lodge', view: 'Pine Ridge Group Suite', capacity: '8 Guests' }
 ];
 
 function ResortApp() {
@@ -1104,7 +1104,6 @@ ResortApp.prototype.renderDashboard = function() {
       total: 6,
       booked: stats.categories['Valley Cottages'].booked,
       tagline: 'Private cottages nestled in valley tea slopes (Units 101–106)',
-      feature: 'King Bed • Jacuzzi • Private Deck',
       bgGradient: 'linear-gradient(135deg, #3D6656 0%, #243E34 100%)',
       rooms: ROOM_DATABASE.filter(function(r) { return r.category === 'Valley Cottages'; })
     },
@@ -1113,7 +1112,6 @@ ResortApp.prototype.renderDashboard = function() {
       total: 2,
       booked: stats.categories['Hill Top Rooms'].booked,
       tagline: 'Panoramic peak suites with cloud ridge views (Units 201–202)',
-      feature: 'California King • 360° Ridge Vista',
       bgGradient: 'linear-gradient(135deg, #7C6044 0%, #543E29 100%)',
       rooms: ROOM_DATABASE.filter(function(r) { return r.category === 'Hill Top Rooms'; })
     },
@@ -1122,7 +1120,6 @@ ResortApp.prototype.renderDashboard = function() {
       total: 1,
       booked: stats.categories['Dormitory'].booked,
       tagline: 'Spacious teakwood group lodge (Max 8 guests)',
-      feature: '8 Bunks • Dual Bathrooms',
       bgGradient: 'linear-gradient(135deg, #425A68 0%, #283C48 100%)',
       rooms: ROOM_DATABASE.filter(function(r) { return r.category === 'Dormitory'; })
     }
@@ -1157,7 +1154,6 @@ ResortApp.prototype.renderDashboard = function() {
                     '<span class="dot"></span>' +
                     (isFull ? 'Fully Booked for Selected Date' : avail + ' Available Today') +
                   '</span>' +
-                  '<span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">' + cat.feature + '</span>' +
                 '</div>' +
                 '<div class="cat-room-list">' + miniChipsHtml + '</div>' +
                 '<div class="cat-actions">' +
@@ -1318,7 +1314,7 @@ ResortApp.prototype.renderDateBreakdown = function() {
             '<div>' +
               '<div class="avail-room-code">' + room.id + '</div>' +
               '<div class="avail-room-name">' + room.name + '</div>' +
-              '<div class="avail-room-bed">🛏️ ' + room.bed + '</div>' +
+              '<div class="avail-room-bed">' + (room.view ? '🌄 ' + room.view : '👥 ' + room.capacity) + '</div>' +
             '</div>' +
             '<button type="button" class="btn-book-room-sm" onclick="window.app.quickBookSpecific(\'' + room.id + '\', \'' + this.selectedDate + '\')">' +
               '+ Book Room' +
@@ -1605,7 +1601,7 @@ ResortApp.prototype.openBookingModal = function(roomId, optionalDate) {
   var dateToSet = optionalDate || this.selectedDate;
 
   document.getElementById('book-room-title').textContent = 'Book ' + room.id + ' - ' + room.name;
-  document.getElementById('book-room-category').textContent = room.category + ' • ' + room.bed;
+  document.getElementById('book-room-category').textContent = room.category + (room.capacity ? ' • ' + room.capacity : '');
   document.getElementById('book-room-id').value = room.id;
   document.getElementById('book-date-input').value = dateToSet;
   document.getElementById('book-staff-name').value = this.currentStaff.name + ' (' + this.currentStaff.username + ')';
